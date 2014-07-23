@@ -2,11 +2,13 @@ package org.ivo.graph;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.util.ArrayDeque;
 import java.util.List;
+import java.util.Stack;
 
 public class BasicWordGraph implements WordGraph {
 
-	private Node start;
+	private BasicNode start;
 
 	@Override
 	public WordGraph build(List<String> strings) {
@@ -32,12 +34,23 @@ public class BasicWordGraph implements WordGraph {
 	}
 
 	@Override
-	public Node getStart() {
+	public BasicNode getStart() {
 		return start;
 	}
 
 	public void serialize() {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		DataOutputStream dataOS = new DataOutputStream(os);
+		ArrayDeque<BasicNode> stack = new ArrayDeque<BasicNode>();
+		stack.addLast(start);
+		while(!stack.isEmpty()) {
+			BasicNode node = stack.pollLast();
+			node.write(dataOS);
+			int size = getSize(node);
+		}
+	}
+
+	private int getSize(BasicNode node) {
+		return 2 + node.getTransitionCount() * 2;
 	}
 }

@@ -1,6 +1,8 @@
 package org.ivo.graph;
 
+import java.io.DataOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BasicNode implements Node {
@@ -31,5 +33,14 @@ public class BasicNode implements Node {
 		targets.add(result);
 		chars.add(c);
 		return result;
+	}
+
+	public int getTransitionCount() {
+		return targets.size();
+	}
+
+	public void write(DataOutputStream dataOS) {
+//		dataOS.writeInt(targets.size());
+//		dataOS.writeInt(isFinal);
 	}
 }
