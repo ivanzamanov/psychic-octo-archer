@@ -5,6 +5,7 @@ import java.util.Random;
 public class IntSum implements Runnable {
 
 	private int[] a;
+	@SuppressWarnings("unused")
 	private int sum;
 
 	public IntSum() {
@@ -30,34 +31,34 @@ public class IntSum implements Runnable {
 		int result = 0;
 		for (int i = 0; i < a.length; i += 4) {
 			int sign, value, j;
-			j = i;
-			result += (a[j] >= 0 ? a[j] : -a[j]);
-			j = i + 1;
-			result += (a[j] >= 0 ? a[j] : -a[j]);
-			j = i + 2;
-			result += (a[j] >= 0 ? a[j] : -a[j]);
-			j = i + 3;
-			result += (a[j] >= 0 ? a[j] : -a[j]);
-
 //			j = i;
-//			sign = a[j] >> 31;
-//			value = (a[j] ^ sign) + sign;
-//			result += value;
-//
+//			result += (a[j] >= 0 ? a[j] : -a[j]);
 //			j = i + 1;
-//			sign = a[j] >> 31;
-//			value = (a[j] ^ sign) + sign;
-//			result += value;
-//
+//			result += (a[j] >= 0 ? a[j] : -a[j]);
 //			j = i + 2;
-//			sign = a[j] >> 31;
-//			value = (a[j] ^ sign) + sign;
-//			result += value;
-//
+//			result += (a[j] >= 0 ? a[j] : -a[j]);
 //			j = i + 3;
-//			sign = a[j] >> 31;
-//			value = (a[j] ^ sign) + sign;
-//			result += value;
+//			result += (a[j] >= 0 ? a[j] : -a[j]);
+
+			j = i;
+			sign = a[j] >> 31;
+			value = (a[j] ^ sign) + sign;
+			result += value;
+
+			j = i + 1;
+			sign = a[j] >> 31;
+			value = (a[j] ^ sign) + sign;
+			result += value;
+
+			j = i + 2;
+			sign = a[j] >> 31;
+			value = (a[j] ^ sign) + sign;
+			result += value;
+
+			j = i + 3;
+			sign = a[j] >> 31;
+			value = (a[j] ^ sign) + sign;
+			result += value;
 		}
 		return result;
 	}

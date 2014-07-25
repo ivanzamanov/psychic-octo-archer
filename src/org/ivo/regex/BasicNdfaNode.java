@@ -9,13 +9,17 @@ public class BasicNdfaNode implements NdfaNode {
 
 	int payload;
 	List<? extends Transition> nexts;
-	List<NdfaNode> epsNexts;
+	List<TrPair> epsNexts;
 
 	private BasicNdfaNode(int payload, List<? extends Transition> nexts,
 			List<NdfaNode> epsNexts) {
 		this.payload = payload;
 		this.nexts = nexts;
-		this.epsNexts = epsNexts;
+		this.epsNexts = new ArrayList<TrPair>();
+		for(NdfaNode node : epsNexts) {
+			TrPair trPair = new TrPair(Transition.EPSILON, node);
+			this.epsNexts.add(trPair);
+		}
 	}
 
 	public static BasicNdfaNode payload(int payload) {
@@ -37,6 +41,14 @@ public class BasicNdfaNode implements NdfaNode {
 				next)), Collections.<NdfaNode> emptyList());
 	}
 
+	public static NdfaNode dotTo(NdfaNode next) {
+		List<Transition> trans = new ArrayList<Transition>();
+		for (char c = 'a'; c <= 'z'; ++c) {
+			trans.add(new TrPair(c, next));
+		}
+		return new BasicNdfaNode(0, trans, Collections.<NdfaNode>emptyList());
+	}
+
 	@Override
 	public int payload() {
 		return payload;
@@ -48,8 +60,13 @@ public class BasicNdfaNode implements NdfaNode {
 	}
 
 	@Override
-	public List<NdfaNode> epsNexts() {
-		return epsNexts;
+	public List<? extends Transition> epsNexts() {
+		ArrayList<Transition> result = new ArrayList<Transition>();
+		for(Transition tr : epsNexts) {
+			result.add(tr);
+			result.addAll(tr.next().epsNexts());
+		}
+		return result;
 	}
 
 	@Override

@@ -28,6 +28,8 @@ public class DfaSource {
 	private Map<NdfaNodeSet, DfaNode> map = new HashMap<DfaSource.NdfaNodeSet, DfaNode>();
 
 	public DfaNode getDfaNode(List<NdfaNode> ndfaNexts) {
+		if(ndfaNexts.size() == 0)
+			return null;
 		NdfaNodeSet set = new NdfaNodeSet(ndfaNexts);
 		DfaNode result = map.get(set);
 		if(result == null)

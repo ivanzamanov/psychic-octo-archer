@@ -8,7 +8,7 @@ public class Main implements Runnable {
 		GraphTest.exec();
 	}
 
-	private static void exec() {
+	public static void exec() {
 		new Main() {
 			public void run() {
 				final String[] tests = Tests.benchmarks;

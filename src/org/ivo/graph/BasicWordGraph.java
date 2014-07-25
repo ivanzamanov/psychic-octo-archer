@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.ArrayDeque;
 import java.util.List;
-import java.util.Stack;
 
 public class BasicWordGraph implements WordGraph {
 
@@ -46,11 +45,11 @@ public class BasicWordGraph implements WordGraph {
 		while(!stack.isEmpty()) {
 			BasicNode node = stack.pollLast();
 			node.write(dataOS);
-			int size = getSize(node);
+//			int size = getSize(node);
 		}
 	}
 
-	private int getSize(BasicNode node) {
-		return 2 + node.getTransitionCount() * 2;
-	}
+//	private int getSize(BasicNode node) {
+//		return 2 + node.getTransitionCount() * 2;
+//	}
 }

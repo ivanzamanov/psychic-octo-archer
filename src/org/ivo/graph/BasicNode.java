@@ -2,7 +2,6 @@ package org.ivo.graph;
 
 import java.io.DataOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class BasicNode implements Node {

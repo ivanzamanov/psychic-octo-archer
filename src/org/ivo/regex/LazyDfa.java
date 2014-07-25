@@ -3,6 +3,8 @@ package org.ivo.regex;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ivo.regex.NdfaNode.Transition;
+
 public class LazyDfa extends DfaNodeImpl {
 
 	private DfaSource dfaSource;
@@ -37,7 +39,7 @@ public class LazyDfa extends DfaNodeImpl {
 		return dfaNext;
 	}
 
-	private List<NdfaNode> getNdfaNexts(char c) {
+	private List<NdfaNode> getNdfaNexts(Character c) {
 		List<NdfaNode> result = new ArrayList<NdfaNode>();
 		for (NdfaNode ndfa : ndfas) {
 			result.addAll(ndfa.nexts(c));
@@ -45,13 +47,23 @@ public class LazyDfa extends DfaNodeImpl {
 		return result;
 	}
 
-	private List<NdfaNode> getEpsilonNexts(char c) {
+	private List<NdfaNode> getEpsilonNexts(Character c) {
 		List<NdfaNode> result = new ArrayList<NdfaNode>();
 		for (NdfaNode ndfa : ndfas) {
-			for (NdfaNode epsNext : ndfa.epsNexts()) {
-				result.addAll(epsNext.nexts(c));
-			}
+			getEpsilonNexts(ndfa, c, result);
 		}
 		return result;
+	}
+
+	private void getEpsilonNexts(NdfaNode ndfa, Character c, List<NdfaNode> result) {
+		result.addAll(ndfa.nexts(c));
+		for (Transition tr : ndfa.epsNexts()) {
+			NdfaNode epsNext = tr.next();
+			getEpsilonNexts(epsNext, c, result);
+		}
+	}
+
+	public List<NdfaNode> getNdfas() {
+		return ndfas;
 	}
 }
